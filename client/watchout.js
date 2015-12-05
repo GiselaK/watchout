@@ -32,8 +32,11 @@ for ( var i = 0 ; i <= numEnemies ; i++) {
 }
 
 var drag = d3.behavior.drag()  
-  .on('drag', function() { player.attr('cx', d3.event.x)
-  .attr('cy', d3.event.y);})
+  .on('drag', function() { 
+  player
+  .attr('cx', d3.event.x)
+  .attr('cy', d3.event.y);
+})
 
 
 
@@ -72,6 +75,54 @@ var moveEnemies = function(dataset){
     .attr("cy", function(d) {d.y = Math.random() * height; return d.y;})
 }
 
+// var collision = function (){
+//   var PlayerX = d3.select('.player')[0].__data__.x
+//   var PlayerY = d3.select('.player')[0].__data__.y
+//   var PlayerR = d3.select('.player')[0].__data__.r
+//   _.each(d3.selectAll('.enemy')[0], function(item,index){
+//     var xDiff = Math.abs(item.__data__.x - PlayerX) 
+//     var yDiff = Math.abs(item.__data__.y - PlayerY)
+//     var enemyRadius = item.__data__.r
+//     var difference = Math.sqrt( Math.pow(xDiff,2) + Math.pow(yDiff,2))
+//     if(difference <= PlayerR + enemyRadius){
+//       alert("found collision");
+//     }                                                                
+//   })
+
+// use d3.select to get the single play by the .attr()
+// d3 each provides a this which allows access to attr()
+
+var collision = function (enemy) {
+//   var PlayerX = d3.select('.player')[0].__data__.x
+//   var PlayerY = d3.select('.player')[0].__data__.y
+//   var PlayerR = d3.select('.player')[0].__data__.r
+//   _.each(d3.selectAll('.enemy')[0], function(item,index){
+//     var xDiff = Math.abs(item.__data__.x - PlayerX) 
+//     var yDiff = Math.abs(item.__data__.y - PlayerY)
+//     var enemyRadius = item.__data__.r
+//     var difference = Math.sqrt( Math.pow(xDiff,2) + Math.pow(yDiff,2))
+//     if(difference <= PlayerR + enemyRadius){
+//       alert("found collision");
+//     }                                                                
+//   })
+
+  // Math.abs()
+}
+
+
+// setInterval(checkCollision,300)
+
+
 setInterval(moveEnemies,2000);
+
+
+
+
+
+
+
+
+
+
 
 
