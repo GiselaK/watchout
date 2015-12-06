@@ -1,7 +1,7 @@
 // start slingin' some d3 here.
 
-var width = 800;
-var height = 800;
+var width =   window.innerWidth;
+var height =  window.innerHeight;
 var circle;
 var current_score = 0;
 var highScore = 0;
@@ -10,16 +10,7 @@ var svg = d3.select(".board")
   .append('svg')
   .attr("height", height)
   .attr("width", width);
-  // var defs = svg.append("svg:defs")
-  // defs.append("svg:pattern")
-  // .attr('class', 'enemy')
-  // .attr("width", 800)
-  // .attr("height", 800)  
-  // .append('svg:image')
-  // .attr('xlink:href', 'asteroid.png')
-  // .attr('x',0)
-  // .attr("width", 800)
-  // .attr("height", 800)
+
 
 
 var numEnemies = 20;
@@ -29,7 +20,7 @@ var numEnemies = 20;
 var gamePlayer = [{
    x : width /2,
    y: height /2,
-   r: 5
+   r: 200
 }]
 
 var dataset = [];
@@ -38,15 +29,15 @@ for ( var i = 0 ; i < numEnemies ; i++) {
   dataset.push({
     x : Math.random() * width,
     y : Math.random() * height,
-    r : 20
+    r : 60
   })
 }
 
 var drag = d3.behavior.drag()  
   .on('drag', function() { 
   player
-  .attr('cx', d3.event.x)
-  .attr('cy', d3.event.y);
+  .attr('x', d3.event.x)
+  .attr('y', d3.event.y);
 })
 
 
@@ -56,13 +47,13 @@ circle = svg.selectAll('.enemy')
 .data(dataset)
 .enter()
 .append("svg:image")
-.attr("xlink:href", "asteroid.png")
+.attr("xlink:href", "http://vignette1.wikia.nocookie.net/clubpenguin/images/c/c9/Donut_chocolate_sprinkles.png/revision/20130518082345")
 .attr("x", function(d) {return d.x })
 .attr("y", function(d) {return d.y})
 .attr("height", function(d) {return d.r})
 .attr("width", function(d) {return d.r})
 .attr("class", 'enemy')
-.attr("fill",'grey')
+
    
 
   
@@ -70,18 +61,19 @@ circle = svg.selectAll('.enemy')
 var player = svg.selectAll('.player')
 .data(gamePlayer)
 .enter()
-.append("circle")
-.attr("cx", function(d) {return d.x })
-.attr("cy", function(d) {return d.y})
-.attr("r", function(d) {return d.r})
+.append("svg:image")
+.attr("xlink:href", "https://s-media-cache-ak0.pinimg.com/originals/d8/55/9f/d8559f57d2cfcc8db35f032b424f1fe8.gif")
+.attr("x", function(d) {return d.x })
+.attr("y", function(d) {return d.y})
+.attr("width", function(d) {return d.r})
+.attr("height", function(d) {return d.r})
 .attr("class", 'player')
-.attr("fill",'red')
 .call(drag)
 
 
 
 var moveEnemies = function(){
-var lastX 
+// var lastX 
   svg.selectAll('.enemy')
     .transition()
     .duration(1000)
@@ -106,13 +98,17 @@ var tracker = function(){
     if(collision(this)){
       var collisionCount = Number(d3.select(".collisions span").text())
       d3.select(".collisions span").text(++collisionCount)
-      console.log("game over!")
+      // console.log("game over!", d)
+      // console.log( Number(d.height))
+      // update homers size
+      // d3.select('.player').attr("height", function(d) {return d.height + 100})
+      // d3.select('.player').attr("width", function(d) {return d.width + 100})
       if(current_score > highScore){
         highScore = current_score;
       }
       d3.select(".highscore span").text(Math.floor(highScore));
       current_score = 0;
-    } else{
+    } else {
       current_score+=0.01      
     }
     d3.select(".current span").text(Math.floor(current_score))   
@@ -124,9 +120,9 @@ var tracker = function(){
 // d3 each provides a this which allows access to attr()
 
 var collision = function (enemy) {
-  var PlayerX = d3.select('.player').attr("cx");
-  var PlayerY = d3.select('.player').attr("cy");
-  var PlayerR = d3.select('.player').attr("r");
+  var PlayerX = d3.select('.player').attr("x");
+  var PlayerY = d3.select('.player').attr("y");
+  var PlayerR = d3.select('.player').attr("height");
 
   // d3.selectAll('.enemy').each(function(d,i) { 
     var xDiff = Math.abs(d3.select(enemy).attr("x") - PlayerX); 
@@ -145,7 +141,7 @@ var collision = function (enemy) {
 // setInterval(collision,100)
 
 
-setInterval(moveEnemies,1000);
+setInterval(moveEnemies,2000);
 
 
 
